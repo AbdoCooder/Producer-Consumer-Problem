@@ -1,5 +1,7 @@
 # Java Producer-Consumer Implementation
 
+## !!! READ [Mastering_Java_Concurrency.pdf](https://github.com/AbdoCooder/Producer-Consumer-Problem/blob/main/Mastering_Java_Concurrency.pdf) FOR AN EXPANDED EXPLANATION !!!
+
 This project is a raw, low-level implementation of the classic **Producer-Consumer** concurrency problem in Java. It demonstrates how to manage shared resources between multiple threads without using high-level concurrent collections (like `BlockingQueue`), forcing a deep understanding of thread synchronization.
 
 ## 🧠 Core Concepts
