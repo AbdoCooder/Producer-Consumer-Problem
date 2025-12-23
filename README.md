@@ -1,24 +1,32 @@
 # Java Producer-Consumer Implementation
+<img width="2752" height="1536" alt="Image" src="https://github.com/user-attachments/assets/45107a63-3a67-4a81-831e-f66883aac8dc" />
 
-## !!! READ [Mastering_Java_Concurrency.pdf](https://github.com/AbdoCooder/Producer-Consumer-Problem/blob/main/Mastering_Java_Concurrency.pdf) FOR AN EXPANDED EXPLANATION !!!
+## > !!! READ [Mastering_Java_Concurrency.pdf](https://github.com/AbdoCooder/Producer-Consumer-Problem/blob/main/Mastering_Java_Concurrency.pdf) FOR AN EXPANDED EXPLANATION !!!
 
-This project is a raw, low-level implementation of the classic **Producer-Consumer** concurrency problem in Java. It demonstrates how to manage shared resources between multiple threads without using high-level concurrent collections (like `BlockingQueue`), forcing a deep understanding of thread synchronization.
+# 💻 Laptop Store: Producer-Consumer Simulation
 
-## 🧠 Core Concepts
+This project is a multi-threaded Java simulation of a **Laptop Store**, demonstrating the **Producer-Consumer** architectural pattern. It solves the concurrency challenges of managing a shared inventory (`Store`) accessed simultaneously by multiple suppliers (`Producers`) and customers (`Consumers`).
 
-This project implements the **Monitor Pattern** to ensure thread safety:
+## 🧠 Core Architecture
 
-* **Mutual Exclusion:** Uses `synchronized` blocks to ensure only one thread accesses the shared `LinkedList` at a time.
-* **Inter-Thread Communication:** Uses `wait()` to block threads when the buffer is full/empty and `notifyAll()` to wake them up when state changes.
-* **Race Condition Prevention:** Guards against data corruption and "spurious wakeups" using `while` loops for state checking.
-* **Deadlock Prevention:** Carefully placed notification calls ensure no thread is left sleeping indefinitely.
+This implementation uses the **Monitor Pattern** to ensure data integrity and thread safety without using high-level concurrent collections (like `BlockingQueue`).
+
+### Key Concepts Implemented
+* **Shared Resource:** A `Store` object containing an `ArrayList` of `Product`s (Laptops).
+* **Mutual Exclusion:** Critical sections (adding/removing products) are guarded by `synchronized(store.laptops)`.
+* **State Coordination:**
+    * **Producers** wait via `wait()` when the store inventory hits capacity (10 units).
+    * **Consumers** wait via `wait()` when the store is empty.
+    * Both parties use `notifyAll()` to signal state changes (Full → Available Space, Empty → Stock Available).
+* **Stress Testing:** The simulation runs **2 Producers** against **6 Consumers** to aggressively test the locking mechanism and race condition handling.
 
 ## 📂 Project Structure
 
-* `Main.java`: The entry point. Initializes the shared storage and starts the threads.
-* `Producer.java`: Generates data and adds it to the list. Waits if the list is full (Capacity: 10).
-* `Consumer.java`: Removes data from the list. Waits if the list is empty.
-* `ConsoleColors.java`: Helper class for ANSI color codes to visualize thread actions.
+* **`Main.java`**: The entry point. Initializes the `Store` and launches 2 Producer threads and 6 Consumer threads.
+* **`Store.java`**: Represents the shared memory. Contains the `laptops` list (ArrayList) and the capacity limit.
+* **`Product.java`**: A simple data class representing a specific laptop (with an ID).
+* **`Producer.java`**: Simulates a factory worker. Generates random products, sleeps to simulate production time, and adds to the store.
+* **`Consumer.java`**: Simulates a customer. Sleeps to simulate "browsing" time and removes products from the store.
 
 ## 🚀 How to Run
 
